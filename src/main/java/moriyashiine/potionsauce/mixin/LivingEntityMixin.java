@@ -6,6 +6,7 @@ package moriyashiine.potionsauce.mixin;
 
 import moriyashiine.potionsauce.common.PotionSauce;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -26,7 +27,13 @@ public abstract class LivingEntityMixin {
 	private void potionsauce$applyEffects(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
 		List<StatusEffectInstance> effects = PotionSauce.getEffects(stack);
 		if (!effects.isEmpty()) {
+			PotionSauce.overrideDeathMessage = true;
 			effects.forEach(this::addStatusEffect);
 		}
+	}
+
+	@Inject(method = "damage", at = @At("RETURN"))
+	private void potionsauce$removeDeathMessageOverride(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+		PotionSauce.overrideDeathMessage = false;
 	}
 }

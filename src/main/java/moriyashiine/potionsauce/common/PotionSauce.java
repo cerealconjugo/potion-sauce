@@ -17,6 +17,8 @@ import java.util.List;
 public class PotionSauce implements ModInitializer {
 	public static final String MOD_ID = "potionsauce";
 
+	public static boolean overrideDeathMessage = false;
+
 	@Override
 	public void onInitialize() {
 		UseBlockCallback.EVENT.register(new CleanSauceEvent());
