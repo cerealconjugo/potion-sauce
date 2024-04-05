@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "potionsauce",
+  "version": "${version}",
+  "name": "Potion Sauce",
+  "description": "Allows food to be sauced with potions in a brewing stand",
+  "authors": [
+	"MoriyaShiine"
+  ],
+  "contact": {
+	"homepage": "https://modrinth.com/project/potion-sauce",
+	"sources": "https://github.com/MoriyaShiine/potion-sauce",
+	"issues": "https://github.com/MoriyaShiine/potion-sauce/issues"
+  },
+  "license": "All Rights Reserved",
+  "icon": "assets/potionsauce/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "moriyashiine.potionsauce.common.PotionSauce"
+	],
+	"client": [
+	  "moriyashiine.potionsauce.client.PotionSauceClient"
+	]
+  },
+  "mixins": [
+	"potionsauce.mixins.json"
+  ],
+  "accessWidener": "potionsauce.accesswidener",
+  "depends": {
+	"fabricloader": "*",
+	"minecraft": "1.20.1",
+	"java": ">=17",
+	"fabric-api": "*"
+  }
+}
