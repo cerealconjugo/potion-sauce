@@ -3,7 +3,7 @@
   "id": "potionsauce",
   "version": "${version}",
   "name": "Potion Sauce",
-  "description": "Allows food to be sauced with potions in a brewing stand",
+  "description": "Allows food to be sauced with potions in a Brewing Stand",
   "authors": [
 	"MoriyaShiine"
   ],
