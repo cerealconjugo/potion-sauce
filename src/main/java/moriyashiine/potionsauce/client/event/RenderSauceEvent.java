@@ -27,7 +27,7 @@ public class RenderSauceEvent implements ItemTooltipCallback {
 				effects.removeIf(instance -> instance.getEffectType().getCategory() == StatusEffectCategory.HARMFUL);
 				if (!effects.isEmpty()) {
 					lines.add(1, Text.translatable("tooltip.potionsauce.sauce").formatted(Formatting.DARK_GREEN));
-					PotionUtil.buildTooltip(effects, lines, 1F);
+					PotionUtil.buildTooltip(effects, lines, 1);
 				}
 			}
 		}
