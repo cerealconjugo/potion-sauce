@@ -8,8 +8,10 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import moriyashiine.potionsauce.common.PotionSauce;
+import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -30,7 +32,7 @@ public class BrewingStandBlockEntityMixin {
 
 	@ModifyReturnValue(method = "isValid", at = @At(value = "RETURN", ordinal = 0))
 	private boolean potionsauce$allowPotion(boolean original, int slot, ItemStack stack) {
-		if (!original && stack.isOf(Items.POTION) && !PotionSauce.getEffects(stack).isEmpty()) {
+		if (!original && stack.isOf(Items.POTION) && stack.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT).hasEffects()) {
 			return true;
 		}
 		return original;
@@ -38,7 +40,7 @@ public class BrewingStandBlockEntityMixin {
 
 	@ModifyReturnValue(method = "isValid", at = @At(value = "RETURN", ordinal = 2))
 	private boolean potionsauce$allowFood(boolean original, int slot, ItemStack stack) {
-		if (!original && stack.isFood() && PotionSauce.getEffects(stack).isEmpty()) {
+		if (!original && stack.contains(DataComponentTypes.FOOD) && !stack.contains(ModDataComponentTypes.SAUCED)) {
 			return true;
 		}
 		return original;

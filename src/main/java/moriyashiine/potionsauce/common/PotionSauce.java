@@ -4,13 +4,16 @@
 
 package moriyashiine.potionsauce.common;
 
+import com.google.common.collect.Lists;
 import moriyashiine.potionsauce.common.event.CleanSauceEvent;
+import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.potion.PotionUtil;
+import net.minecraft.util.Identifier;
 
 import java.util.List;
 
@@ -21,20 +24,21 @@ public class PotionSauce implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModDataComponentTypes.init();
 		UseBlockCallback.EVENT.register(new CleanSauceEvent());
 	}
 
-	public static List<StatusEffectInstance> getEffects(ItemStack stack) {
-		if (stack.isFood()) {
-			NbtCompound nbt = stack.getSubNbt(PotionSauce.MOD_ID);
-			if (nbt == null || !nbt.getBoolean("Sauced")) {
-				return List.of();
+	public static Identifier id(String value) {
+		return new Identifier(MOD_ID, value);
+	}
+
+	public static List<StatusEffectInstance> getSauceEffects(ItemStack stack) {
+		if (stack.contains(DataComponentTypes.FOOD) && stack.contains(ModDataComponentTypes.SAUCED)) {
+			PotionContentsComponent potionContents = stack.get(DataComponentTypes.POTION_CONTENTS);
+			if (potionContents != null) {
+				return Lists.newArrayList(potionContents.getEffects());
 			}
 		}
-		List<StatusEffectInstance> effects = PotionUtil.getPotionEffects(stack);
-		if (effects.isEmpty()) {
-			effects.addAll(PotionUtil.getCustomPotionEffects(stack));
-		}
-		return effects;
+		return List.of();
 	}
 }

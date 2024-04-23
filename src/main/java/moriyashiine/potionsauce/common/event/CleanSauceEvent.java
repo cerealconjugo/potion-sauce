@@ -4,14 +4,14 @@
 
 package moriyashiine.potionsauce.common.event;
 
-import moriyashiine.potionsauce.common.PotionSauce;
+import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.LeveledCauldronBlock;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -23,7 +23,7 @@ public class CleanSauceEvent implements UseBlockCallback {
 	@Override
 	public ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 		ItemStack stack = player.getStackInHand(hand);
-		if (stack.isFood() && !PotionSauce.getEffects(stack).isEmpty()) {
+		if (stack.contains(ModDataComponentTypes.SAUCED)) {
 			BlockState state = world.getBlockState(hitResult.getBlockPos());
 			if (state.isOf(Blocks.WATER_CAULDRON)) {
 				int level = state.get(LeveledCauldronBlock.LEVEL);
@@ -40,8 +40,8 @@ public class CleanSauceEvent implements UseBlockCallback {
 						food = stack.split(1);
 						give = true;
 					}
-					food.getNbt().remove(PotionUtil.CUSTOM_POTION_EFFECTS_KEY);
-					food.getSubNbt(PotionSauce.MOD_ID).remove("Sauced");
+					food.remove(DataComponentTypes.POTION_CONTENTS);
+					food.remove(ModDataComponentTypes.SAUCED);
 					if (give && !player.giveItemStack(food)) {
 						player.dropStack(food);
 					}

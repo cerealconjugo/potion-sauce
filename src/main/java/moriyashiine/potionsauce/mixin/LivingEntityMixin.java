@@ -23,12 +23,14 @@ public abstract class LivingEntityMixin {
 	@Shadow
 	public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
-	@Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)V"))
+	@Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects(Lnet/minecraft/component/type/FoodComponent;)V"))
 	private void potionsauce$applyEffects(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
-		List<StatusEffectInstance> effects = PotionSauce.getEffects(stack);
-		if (!effects.isEmpty()) {
-			PotionSauce.overrideDeathMessage = true;
-			effects.forEach(this::addStatusEffect);
+		if (!world.isClient) {
+			List<StatusEffectInstance> sauceEffects = PotionSauce.getSauceEffects(stack);
+			if (!sauceEffects.isEmpty()) {
+				PotionSauce.overrideDeathMessage = true;
+				sauceEffects.forEach(effect -> addStatusEffect(new StatusEffectInstance(effect)));
+			}
 		}
 	}
 
