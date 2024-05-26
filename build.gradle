@@ -1,6 +1,6 @@
 plugins {
     id 'fabric-loom' version '1.6-SNAPSHOT'
-    id 'maven-publish'
+    id 'io.github.ladysnake.chenille' version '0.13.1'
 }
 
 version = project.mod_version
@@ -8,6 +8,24 @@ group = project.maven_group
 
 base {
     archivesName = project.archives_base_name
+}
+
+chenille {
+    customLicense = rootProject.file("LICENSE")
+    javaVersion = 21;
+    configurePublishing {
+        withLadysnakeMaven()
+        withGithubRelease()
+        withModrinthRelease()
+        withCurseforgeRelease()
+    }
+}
+
+modrinth {
+    dependencies {
+        required.project "fabric-api"
+    }
+    syncBodyFrom = rootProject.file("README.md").text
 }
 
 loom {
