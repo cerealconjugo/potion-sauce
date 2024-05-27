@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RenderSauceEvent implements ItemTooltipCallback {
@@ -24,7 +25,11 @@ public class RenderSauceEvent implements ItemTooltipCallback {
 			sauceEffects.removeIf(instance -> instance.getEffectType().value().getCategory() == StatusEffectCategory.HARMFUL);
 			if (!sauceEffects.isEmpty()) {
 				lines.add(1, Text.translatable("tooltip.potionsauce.sauce").formatted(Formatting.DARK_GREEN));
-				PotionContentsComponent.buildTooltip(sauceEffects, lines::add, 1, tooltipContext.getUpdateTickRate());
+				List<Text> potionText = new ArrayList<>();
+				PotionContentsComponent.buildTooltip(sauceEffects, potionText::add, 1, tooltipContext.getUpdateTickRate());
+				for (int i = potionText.size() - 1; i >= 0; i--) {
+					lines.add(2, potionText.get(i));
+				}
 			}
 		}
 	}
