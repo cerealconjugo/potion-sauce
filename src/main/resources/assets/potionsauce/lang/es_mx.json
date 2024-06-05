@@ -1,0 +1,5 @@
+{
+  "death.attack.potionsauce.overeating": "%1$s comió demasiado",
+  "death.attack.potionsauce.overeating.player": "%1$s comió demasiado mientras peleaba contra %2$s",
+  "tooltip.potionsauce.sauce": "Ensalsado con:"
+}
