@@ -3,7 +3,7 @@
  */
 package moriyashiine.potionsauce.common.event;
 
-import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
+import moriyashiine.potionsauce.common.init.ModComponentTypes;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -22,7 +22,7 @@ public class CleanSauceEvent implements UseBlockCallback {
 	@Override
 	public ActionResult interact(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 		ItemStack stack = player.getStackInHand(hand);
-		if (stack.contains(ModDataComponentTypes.SAUCED)) {
+		if (stack.contains(ModComponentTypes.SAUCED)) {
 			BlockState state = world.getBlockState(hitResult.getBlockPos());
 			if (state.isOf(Blocks.WATER_CAULDRON)) {
 				int level = state.get(LeveledCauldronBlock.LEVEL);
@@ -40,7 +40,7 @@ public class CleanSauceEvent implements UseBlockCallback {
 						give = true;
 					}
 					food.remove(DataComponentTypes.POTION_CONTENTS);
-					food.remove(ModDataComponentTypes.SAUCED);
+					food.remove(ModComponentTypes.SAUCED);
 					if (give && !player.giveItemStack(food)) {
 						player.dropStack(food);
 					}
