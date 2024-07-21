@@ -1,4 +1,11 @@
 ------------------------------------------------------
+Version 1.21-r1
+------------------------------------------------------
+- update to 1.21
+- merge https://github.com/MoriyaShiine/potion-sauce/pull/1
+- merge https://github.com/MoriyaShiine/potion-sauce/pull/2
+
+------------------------------------------------------
 Version 1.20.6-r2
 ------------------------------------------------------
 - displaying sauce effects is now done more intelligently
