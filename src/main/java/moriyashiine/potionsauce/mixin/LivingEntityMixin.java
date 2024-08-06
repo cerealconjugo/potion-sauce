@@ -4,6 +4,7 @@
 package moriyashiine.potionsauce.mixin;
 
 import moriyashiine.potionsauce.common.PotionSauce;
+import net.minecraft.component.type.FoodComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -23,7 +24,7 @@ public abstract class LivingEntityMixin {
 	public abstract boolean addStatusEffect(StatusEffectInstance effect);
 
 	@Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;applyFoodEffects(Lnet/minecraft/component/type/FoodComponent;)V"))
-	private void potionsauce$applyEffects(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir) {
+	private void potionsauce$applyEffects(World world, ItemStack stack, FoodComponent foodComponent, CallbackInfoReturnable<ItemStack> cir) {
 		if (!world.isClient) {
 			List<StatusEffectInstance> sauceEffects = PotionSauce.getSauceEffects(stack);
 			if (!sauceEffects.isEmpty()) {

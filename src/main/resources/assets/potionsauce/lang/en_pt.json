@@ -1,0 +1,5 @@
+{
+  "death.attack.potionsauce.overeating": "%1$s munched on too much",
+  "death.attack.potionsauce.overeating.player": "%1$s munched on too much whilst dueling %2$s",
+  "tooltip.potionsauce.sauce": "Smothered in:"
+}

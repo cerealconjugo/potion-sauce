@@ -7,7 +7,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
+import moriyashiine.potionsauce.common.init.ModComponentTypes;
 import net.minecraft.block.entity.BrewingStandBlockEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -39,7 +39,7 @@ public class BrewingStandBlockEntityMixin {
 
 	@ModifyReturnValue(method = "isValid", at = @At(value = "RETURN", ordinal = 2))
 	private boolean potionsauce$allowFood(boolean original, int slot, ItemStack stack) {
-		if (!original && stack.contains(DataComponentTypes.FOOD) && !stack.contains(ModDataComponentTypes.SAUCED)) {
+		if (!original && stack.contains(DataComponentTypes.FOOD) && !stack.contains(ModComponentTypes.SAUCED)) {
 			return true;
 		}
 		return original;

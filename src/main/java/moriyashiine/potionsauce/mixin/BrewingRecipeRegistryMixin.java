@@ -4,7 +4,7 @@
 package moriyashiine.potionsauce.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import moriyashiine.potionsauce.common.init.ModDataComponentTypes;
+import moriyashiine.potionsauce.common.init.ModComponentTypes;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -29,7 +29,7 @@ public class BrewingRecipeRegistryMixin {
 
 	@ModifyReturnValue(method = "hasRecipe", at = @At("RETURN"))
 	private boolean potionsauce$allowFood(boolean original, ItemStack input, ItemStack ingredient) {
-		if (!original && input.contains(DataComponentTypes.FOOD) && ingredient.isOf(Items.POTION) && !input.contains(ModDataComponentTypes.SAUCED)) {
+		if (!original && input.contains(DataComponentTypes.FOOD) && ingredient.isOf(Items.POTION) && !input.contains(ModComponentTypes.SAUCED)) {
 			return true;
 		}
 		return original;
@@ -37,7 +37,7 @@ public class BrewingRecipeRegistryMixin {
 
 	@Inject(method = "craft", at = @At("HEAD"))
 	private void potionsauce$applyPotion(ItemStack ingredient, ItemStack input, CallbackInfoReturnable<ItemStack> cir) {
-		if (input.contains(DataComponentTypes.FOOD) && ingredient.isOf(Items.POTION) && !input.contains(ModDataComponentTypes.SAUCED)) {
+		if (input.contains(DataComponentTypes.FOOD) && ingredient.isOf(Items.POTION) && !input.contains(ModComponentTypes.SAUCED)) {
 			PotionContentsComponent potionPotionContents = ingredient.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
 			if (potionPotionContents.hasEffects()) {
 				PotionContentsComponent foodPotionContents = input.getOrDefault(DataComponentTypes.POTION_CONTENTS, PotionContentsComponent.DEFAULT);
@@ -50,7 +50,7 @@ public class BrewingRecipeRegistryMixin {
 							instance.shouldShowIcon()));
 				}
 				input.set(DataComponentTypes.POTION_CONTENTS, foodPotionContents);
-				input.set(ModDataComponentTypes.SAUCED, Unit.INSTANCE);
+				input.set(ModComponentTypes.SAUCED, Unit.INSTANCE);
 			}
 		}
 	}
