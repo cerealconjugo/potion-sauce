@@ -7,7 +7,7 @@
 	"BrewingStandBlockEntityMixin",
 	"BrewingStandScreenHandlerPotionSlotMixin",
 	"DamageSourceMixin",
-	"LivingEntityMixin"
+	"PotionContentsComponentMixin"
   ],
   "injectors": {
 	"defaultRequire": 1

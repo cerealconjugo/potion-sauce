@@ -11,6 +11,7 @@ import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsage;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -33,18 +34,13 @@ public class CleanSauceEvent implements UseBlockCallback {
 					} else {
 						world.setBlockState(hitResult.getBlockPos(), state.with(LeveledCauldronBlock.LEVEL, level - 1));
 					}
-					ItemStack food = stack;
-					boolean give = false;
-					if (!player.isSneaking()) {
-						food = stack.split(1);
-						give = true;
-					}
+					ItemStack food = player.isSneaking() ? stack : stack.copyWithCount(1);
 					food.remove(DataComponentTypes.POTION_CONTENTS);
 					food.remove(ModComponentTypes.SAUCED);
-					if (give && !player.giveItemStack(food)) {
-						player.dropStack(food);
+					if (food != stack) {
+						ItemUsage.exchangeStack(stack, player, food);
 					}
-					return ActionResult.success(world.isClient);
+					return ActionResult.SUCCESS;
 				}
 			}
 		}

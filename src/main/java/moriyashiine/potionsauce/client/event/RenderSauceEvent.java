@@ -3,8 +3,10 @@
  */
 package moriyashiine.potionsauce.client.event;
 
-import moriyashiine.potionsauce.common.PotionSauce;
+import com.google.common.collect.Lists;
+import moriyashiine.potionsauce.common.init.ModComponentTypes;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.entity.effect.StatusEffectCategory;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -20,7 +22,7 @@ import java.util.List;
 public class RenderSauceEvent implements ItemTooltipCallback {
 	@Override
 	public void getTooltip(ItemStack stack, Item.TooltipContext tooltipContext, TooltipType tooltipType, List<Text> lines) {
-		List<StatusEffectInstance> sauceEffects = PotionSauce.getSauceEffects(stack);
+		List<StatusEffectInstance> sauceEffects = getSauceEffects(stack);
 		if (!sauceEffects.isEmpty()) {
 			sauceEffects.removeIf(instance -> instance.getEffectType().value().getCategory() == StatusEffectCategory.HARMFUL);
 			if (!sauceEffects.isEmpty()) {
@@ -32,5 +34,15 @@ public class RenderSauceEvent implements ItemTooltipCallback {
 				}
 			}
 		}
+	}
+
+	private static List<StatusEffectInstance> getSauceEffects(ItemStack stack) {
+		if (stack.contains(DataComponentTypes.FOOD) && stack.contains(ModComponentTypes.SAUCED)) {
+			PotionContentsComponent potionContents = stack.get(DataComponentTypes.POTION_CONTENTS);
+			if (potionContents != null) {
+				return Lists.newArrayList(potionContents.getEffects());
+			}
+		}
+		return List.of();
 	}
 }
